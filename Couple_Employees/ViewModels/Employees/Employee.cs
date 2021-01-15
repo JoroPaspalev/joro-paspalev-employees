@@ -12,6 +12,6 @@ namespace Couple_Employees.ViewModels.Employees
 
         public DateTime? DateTo { get; set; }
 
-        public int WorkingDays => (int)(this.DateTo - this.DateFrom).Value.TotalDays;
+        public double WorkingDays { get; set; }
     }
 }

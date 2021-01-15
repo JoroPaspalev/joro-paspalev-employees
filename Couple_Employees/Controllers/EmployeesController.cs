@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using static Couple_Employees.Common.GlobalConstants;
 
 namespace Couple_Employees.Controllers
 {
@@ -32,7 +33,7 @@ namespace Couple_Employees.Controllers
             //    return this.View(shipmentForEdit);
             //}
 
-            var finalists = new List<CoupleEmployeesViewModel>();
+            List<CoupleEmployeesViewModel> finalists = new List<CoupleEmployeesViewModel>();
 
             if (input.TextFile != null)
             {
@@ -61,8 +62,7 @@ namespace Couple_Employees.Controllers
                     DateTime? dateFrom = ParseDate(currEmployee[2]);
                     DateTime? dateTo = DateTime.UtcNow;
 
-                    //TODO make constant for NULL
-                    if (currEmployee[3] != "NULL")
+                    if (currEmployee[3] != NULL_CONST)
                     {
                         dateTo = ParseDate(currEmployee[3]);
                     }
@@ -79,10 +79,7 @@ namespace Couple_Employees.Controllers
                     projectIds.Add(projectId);
                 }
 
-                ;
-
-
-
+                // Loop thrugh Hashset and take currProjectId
                 foreach (var projectId in projectIds)
                 {
                     int countOfEmployeesInThisProject = employees
@@ -94,21 +91,84 @@ namespace Couple_Employees.Controllers
                         continue;
                     }
 
-                    List<Employee> firstTwoEmployees = employees
+                    // Filter Employees by Project (In Group by project)
+                    List<Employee> employeesByProject = employees
                          .Where(x => x.ProjectId == projectId)
-                         .OrderByDescending(x => x.WorkingDays)
-                         .Take(2)
                          .ToList();
 
-                    var newFinalist = new CoupleEmployeesViewModel
-                    {
-                        FirstEmployeeId = firstTwoEmployees[0].EmpId,
-                        SecondEmployeeId = firstTwoEmployees[1].EmpId,
-                        ProjectId = firstTwoEmployees[0].ProjectId,
-                        WorkedDays = firstTwoEmployees[0].WorkingDays + firstTwoEmployees[1].WorkingDays
-                    };
+                    var employeesWithCalculatedDays = new List<CoupleEmployeesViewModel>();
 
-                    finalists.Add(newFinalist);
+                    for (int i = 0; i < employeesByProject.Count - 1; i++)
+                    {
+                        var currEmpl = employeesByProject[i];
+
+                        for (int p = i + 1; p < employeesByProject.Count; p++)
+                        {
+                            var nextEmpl = employeesByProject[p];
+
+                            double daysWorkedTogether = 0;
+
+                            if ((currEmpl.DateFrom <= nextEmpl.DateFrom &&
+                                 nextEmpl.DateFrom <= currEmpl.DateTo) &&
+                                (currEmpl.DateTo <= nextEmpl.DateTo))
+                            {
+                                daysWorkedTogether = (currEmpl.DateTo - nextEmpl.DateFrom).Value.TotalDays;
+                            }
+                            else if ((currEmpl.DateFrom <= nextEmpl.DateFrom &&
+                                      nextEmpl.DateFrom <= currEmpl.DateTo) &&
+                                     (nextEmpl.DateTo <= currEmpl.DateTo))
+                            {
+                                daysWorkedTogether = (nextEmpl.DateTo - nextEmpl.DateFrom).Value.TotalDays;
+                            }                            
+                            else if ((nextEmpl.DateFrom <= currEmpl.DateFrom && 
+                                      currEmpl.DateFrom <= nextEmpl.DateTo) && 
+                                     (currEmpl.DateTo <= nextEmpl.DateTo))
+                            {
+                                daysWorkedTogether = (currEmpl.DateTo - currEmpl.DateFrom).Value.TotalDays;
+                            }
+                            else if ((nextEmpl.DateFrom <= currEmpl.DateFrom && 
+                                      currEmpl.DateFrom <= nextEmpl.DateTo) && 
+                                     (currEmpl.DateTo > nextEmpl.DateTo))
+                            {
+                                daysWorkedTogether = (nextEmpl.DateTo - currEmpl.DateFrom).Value.TotalDays;
+                            }
+                            else if ((nextEmpl.DateFrom > currEmpl.DateFrom && 
+                                      nextEmpl.DateFrom >currEmpl.DateTo) && 
+                                     (nextEmpl.DateTo > currEmpl.DateFrom && 
+                                      nextEmpl.DateTo > currEmpl.DateTo))
+                            {
+                                daysWorkedTogether = 0;
+                            }
+                            else if ((currEmpl.DateFrom > nextEmpl.DateFrom &&
+                                      currEmpl.DateFrom > nextEmpl.DateTo) &&
+                                     (currEmpl.DateTo > nextEmpl.DateFrom &&
+                                      currEmpl.DateTo > nextEmpl.DateTo))
+                            {
+                                daysWorkedTogether = 0;
+                            }
+
+                           
+                            var employeeWithCalculatedDays = new CoupleEmployeesViewModel
+                            {
+                                FirstEmployeeId = currEmpl.EmpId,
+                                SecondEmployeeId = nextEmpl.EmpId,
+                                ProjectId = projectId,
+                                WorkedDays = daysWorkedTogether
+                            };
+
+                            employeesWithCalculatedDays.Add(employeeWithCalculatedDays);
+                        }
+                    }
+
+                    // Направи ми един лист само с служителите участващи в текущия проект, сортирай го Descending по Working Days и вземи първия ред.
+
+                    CoupleEmployeesViewModel currFinalist = employeesWithCalculatedDays
+                        .OrderByDescending(x => x.WorkedDays)
+                        .Take(1)
+                        .First();
+
+                    finalists.Add(currFinalist);
+
                 }
 
                 //var dddd = employees
@@ -156,7 +216,7 @@ namespace Couple_Employees.Controllers
 
             }
 
-            return this.View(finalists);
+            return this.View(finalists.OrderByDescending(x=>x.WorkedDays));
 
 
         }

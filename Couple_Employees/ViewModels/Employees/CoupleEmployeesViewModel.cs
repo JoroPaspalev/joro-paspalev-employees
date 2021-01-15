@@ -9,6 +9,6 @@ namespace Couple_Employees.ViewModels.Employees
 
         public int ProjectId { get; set; }
 
-        public int WorkedDays { get; set; }
+        public double WorkedDays { get; set; }
     }
 }
