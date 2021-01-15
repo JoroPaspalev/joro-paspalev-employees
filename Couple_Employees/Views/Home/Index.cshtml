@@ -1,0 +1,30 @@
+﻿@using Couple_Employees.ViewModels.Index
+@model ProblemViewModel
+
+<section class="probootstrap-cover overflow-hidden relative" style="background-image: url('/img/bg_1.jpg');" data-stellar-background-ratio="0.5" id="section-home">
+    <div class="overlay"></div>
+    <div class="container pt-5">
+        <div class="row pt-5 ">
+            <div class="col-md row probootstrap_border-1 border-dark bg-light rounded align-items-center pb-3">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <form method="post" asp-controller="Employees" asp-action="CoupleEmployees" enctype="multipart/form-data">
+                        <div class="row row ml-1 mr-1">
+                            <div class="col">
+                                <label asp-for="@Model.TextFile"></label>
+                                <input asp-for="@Model.TextFile" />
+                                <span asp-validation-for="@Model.TextFile" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <input type="submit" class="btn btn-warning ml-3 mt-2" value="Изпрати" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </div>
+    </div>
+</section>
