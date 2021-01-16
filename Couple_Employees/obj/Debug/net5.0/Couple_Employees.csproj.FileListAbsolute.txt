@@ -9,7 +9,6 @@ C:\Users\JP PC\source\repos\Couple_Employees\Couple_Employees\bin\Debug\net5.0\r
 C:\Users\JP PC\source\repos\Couple_Employees\Couple_Employees\bin\Debug\net5.0\Couple_Employees.pdb
 C:\Users\JP PC\source\repos\Couple_Employees\Couple_Employees\bin\Debug\net5.0\Couple_Employees.Views.dll
 C:\Users\JP PC\source\repos\Couple_Employees\Couple_Employees\bin\Debug\net5.0\Couple_Employees.Views.pdb
-C:\Users\JP PC\source\repos\Couple_Employees\Couple_Employees\obj\Debug\net5.0\Couple_Employees.csprojAssemblyReference.cache
 C:\Users\JP PC\source\repos\Couple_Employees\Couple_Employees\obj\Debug\net5.0\Couple_Employees.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\JP PC\source\repos\Couple_Employees\Couple_Employees\obj\Debug\net5.0\Couple_Employees.AssemblyInfoInputs.cache
 C:\Users\JP PC\source\repos\Couple_Employees\Couple_Employees\obj\Debug\net5.0\Couple_Employees.AssemblyInfo.cs
@@ -40,4 +39,3 @@ C:\Users\JP PC\source\repos\Couple_Employees\Couple_Employees\obj\Debug\net5.0\C
 C:\Users\JP PC\source\repos\Couple_Employees\Couple_Employees\obj\Debug\net5.0\Couple_Employees.csproj.CopyComplete
 C:\Users\JP PC\source\repos\Couple_Employees\Couple_Employees\obj\Debug\net5.0\Razor\Views\Employees\CoupleEmployees.cshtml.g.cs
 C:\Users\JP PC\source\repos\Couple_Employees\Couple_Employees\obj\Debug\net5.0\Razor\Views\Errors\InvalidData.cshtml.g.cs
-C:\Users\JP PC\source\repos\Couple_Employees\Couple_Employees\obj\Debug\net5.0\Razor\Views\Errors\InvalidTextFile.cshtml.g.cs

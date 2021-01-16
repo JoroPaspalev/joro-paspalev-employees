@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Couple_Employees.Services;
 using Couple_Employees.ViewModels.Employees;
 using Couple_Employees.ViewModels.Index;
+using Couple_Employees.ViewModels.Error;
+using static Couple_Employees.Common.GlobalConstants;
 
 namespace Couple_Employees.Controllers
 {
@@ -20,13 +22,15 @@ namespace Couple_Employees.Controllers
 
         [HttpPost]
         public async Task<IActionResult> CoupleEmployees(ProblemViewModel input)
-        {           
+        {
             if (!ModelState.IsValid)
-            {                
-                return this.RedirectToAction("InvalidTextFile", "Errors");
+            {
+                return this.RedirectToAction
+                    ("InvalidData", "Errors", new ErrorMessage { Message = EMPTY_FILE });
             }
 
             var finalists = new List<CoupleEmployeesViewModel>();
+
             try
             {
                 finalists = (List<CoupleEmployeesViewModel>)
@@ -34,8 +38,7 @@ namespace Couple_Employees.Controllers
             }
             catch (Exception ex)
             {
-
-                return this.RedirectToAction(ex.Message, "Errors");
+                return this.RedirectToAction("InvalidData", "Errors", new ErrorMessage { Message = ex.Message });
             }
 
             return this.View(finalists.OrderByDescending(x => x.WorkedDays));

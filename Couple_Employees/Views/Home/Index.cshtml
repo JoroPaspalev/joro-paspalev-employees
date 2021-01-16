@@ -1,41 +1,38 @@
 ﻿@using Couple_Employees.ViewModels.Index
 @model ProblemViewModel
 
-<section class="probootstrap-cover overflow-hidden relative" style="background-image: url('/img/bg_1.jpg');" data-stellar-background-ratio="0.5" id="section-home">
+<section>
     <div class="overlay"></div>
-    <div class="container pt-5">
-        <div class="row pt-5 ">
-            <div class="col-md row probootstrap_border-1 border-dark bg-light rounded align-items-center pb-3">
+    <div class="container">
+        <div class="row pt-3 ">
+            <div class="col-md row probootstrap_border-1 border-dark bg-light rounded align-items-center">
                 <div class="col-md-4"></div>
                 <div class="col-md-4">
-                    <form method="post" asp-controller="Employees" asp-action="CoupleEmployees" enctype="multipart/form-data">
+                    <form method="post" asp-controller="Employees" asp-action="CoupleEmployees" enctype="multipart/form-data" class="form-group">
                         <div class="row row ml-1 mr-1">
                             <div class="col">
-                                <label asp-for="@Model.TextFile"></label>
-                                <input asp-for="@Model.TextFile" />
+                                <label asp-for="@Model.TextFile" class="pt-2"></label>
+                                <input asp-for="@Model.TextFile"  />
                                 <span asp-validation-for="@Model.TextFile" class="text-danger"></span>
                             </div>
                             <div class="col">
-
-                                @*TODO - Implement Drop Down Menu where user can select date fomat*@
-                                @*<div class="form-group">
-                                    <label asp-for="@Model.Format">От</label>
-                                    <label asp-for="@Model.Format" style="width: 100%;">
-
-
-                                        <select class="js-example-basic-single js-states form-control" asp-for="@Model.Format" asp-items="@Model.Formats" style="width: 100%;">
-                                        </select>
-
-
-                                        <span asp-validation-for="@Model.Format" class="text-danger text-lowercase"></span>
-                                    </label>
-                                </div>*@
-
+                                <label asp-for="@Model.Format" class="pt-2">Choose a Date format:</label>
+                                <select asp-for="@Model.Format" class="form-control">
+                                    <option value="yyyy-MM-dd">2020-12-31</option>
+                                    <option value="MM-dd-yyyy">12-31-2020</option>
+                                    <option value="dd-MM-yyyy">31-12-2020</option>
+                                    <option value="M-dd-yyyy">6-31-2020</option>
+                                    <option value="MM-d-yyyy">12-1-2020</option>
+                                    <option value="M-d-yyyy">1-9-2020</option>
+                                    <option value="d-M-yyyy">9-1-2020</option>
+                                    <option value="yyyy-MM-d">2020-12-1</option>
+                                    <option value="yyyy-M-dd">2020-1-31</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row ">
                             <div class="col">
-                                <input type="submit" class="btn btn-warning ml-3 mt-2" value="Изпрати" />
+                                <input type="submit" class="btn btn-warning ml-3 mt-4" value="Submit" />
                             </div>
                         </div>
                     </form>
@@ -45,3 +42,22 @@
         </div>
     </div>
 </section>
+
+<section >
+    <div class="overlay"></div>
+    <div class="container pt-5">
+       
+        <p class="font-weight-bold">Valid Date format: </p>
+        <p>yyyy-MM-dd: 2020-12-31</p>
+        <p>MM-dd-yyyy: 12-31-2020</p>
+        <p>dd-MM-yyyy: 31-12-2020</p>
+        <p>M-dd-yyyy: 6-31-2020</p>
+        <p>MM-d-yyyy: 12-1-2020</p>
+        <p>M-d-yyyy: 1-9-2020</p>
+        <p>M-d-yyyy: 9-1-2020</p>
+        <p>yyyy-MM-d: 2020-12-1</p>
+        <p>yyyy-M-dd: 2020-1-31</p>
+
+    </div>
+</section>
+

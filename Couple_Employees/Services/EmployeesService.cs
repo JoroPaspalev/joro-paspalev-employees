@@ -18,25 +18,32 @@ namespace Couple_Employees.Services
         {
             var finalists = new List<CoupleEmployeesViewModel>();
 
-            if (input.TextFile != null)
-            {
-                var inputData = await this.ReadAsStringAsync(input.TextFile);
+            CheckInputFileExtension(input.TextFile);
 
-                var splittedData = SplitInputData(inputData);
+            var inputData = await this.ReadAsStringAsync(input.TextFile);
 
-                List<Employee> employees;
+            var splittedData = SplitInputData(inputData);
 
-                HashSet<int> projectIds;
+            List<Employee> employees;
 
-                ParseAndCreateListWithEmployees(splittedData, out employees, out projectIds);
+            HashSet<int> projectIds;
 
-                GetEmployeesWithCalculatedDays(finalists, employees, projectIds);
-            }
+            ParseAndCreateListWithEmployees(splittedData, out employees, out projectIds, input.Format);
+
+            GetEmployeesWithCalculatedDays(finalists, employees, projectIds);
 
             return finalists;
         }
 
-        private void GetEmployeesWithCalculatedDays(List<CoupleEmployeesViewModel> finalists, List<Employee> employees, HashSet<int> projectIds)
+        public void CheckInputFileExtension(IFormFile textFile)
+        {
+            if (!textFile.FileName.EndsWith(".txt"))
+            {
+                throw new ArgumentException(ONLY_TXT_FILES);
+            }
+        }
+
+        public void GetEmployeesWithCalculatedDays(List<CoupleEmployeesViewModel> finalists, List<Employee> employees, HashSet<int> projectIds)
         {
             // Loop through Hashset and take currProjectId
             foreach (var projectId in projectIds)
@@ -72,11 +79,12 @@ namespace Couple_Employees.Services
             }
         }
 
-        private void ParseAndCreateListWithEmployees(
-            List<string> splittedData, out List<Employee> employees, out HashSet<int> projectIds)
+        public void ParseAndCreateListWithEmployees(
+            List<string> splittedData, out List<Employee> employees, out HashSet<int> projectIds, string dateFormat)
         {
             employees = new List<Employee>();
             projectIds = new HashSet<int>();
+
             foreach (var row in splittedData)
             {
                 List<string> currEmployee = row
@@ -85,16 +93,16 @@ namespace Couple_Employees.Services
 
                 if (currEmployee.Count < 4)
                 {
-                    throw new ArgumentException("InvalidData");
+                    throw new ArgumentException(INVALID_DATA);
                 }
 
                 int empId = int.Parse(currEmployee[0]);
                 int projectId = int.Parse(currEmployee[1]);
 
-                DateTime? dateFrom = ParseDate(currEmployee[2]);
+                DateTime? dateFrom = ParseDate(currEmployee[2], dateFormat);
                 if (dateFrom == null)
                 {
-                    throw new ArgumentException("InvalidData");
+                    throw new ArgumentException(INVALID_START_DATE);
                 }
 
                 DateTime? dateTo;
@@ -104,12 +112,14 @@ namespace Couple_Employees.Services
                 }
                 else
                 {
-                    dateTo = ParseDate(currEmployee[3]);
+                    dateTo = ParseDate(currEmployee[3], dateFormat);
                     if (dateTo == null)
                     {
-                        throw new ArgumentException("InvalidData");
+                        throw new ArgumentException(INVALID_END_DATE);
                     }
                 }
+
+                CheckEndDate(dateFrom, dateTo);
 
                 var newEmployee = new Employee()
                 {
@@ -123,7 +133,7 @@ namespace Couple_Employees.Services
                 projectIds.Add(projectId);
             }
         }
-        private List<string> SplitInputData(string inputData)
+        public List<string> SplitInputData(string inputData)
         {
             return inputData
                 .Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
@@ -141,15 +151,28 @@ namespace Couple_Employees.Services
             return result.ToString();
         }
 
-        private DateTime? ParseDate(string date)
+        public DateTime? ParseDate(string date, string allowedFormats)
         {
-            string[] allowedFormats = { "yyyy-MM-dd", "MM-dd-yyyy", "dd-MM-yyyy", "M-dd-yyyy", "MM-d-yyyy", "M-d-yyyy", "yyyy-MM-d", "yyyy-M-dd" };
+            //string[] allowedFormats = { "yyyy-MM-dd", "MM-dd-yyyy", "dd-MM-yyyy", "M-dd-yyyy", "MM-d-yyyy", "M-d-yyyy", "yyyy-MM-d", "yyyy-M-dd" };
 
             DateTime parsedDate;
 
             bool isParsedDate = DateTime.TryParseExact(date, allowedFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedDate);
 
             return isParsedDate == true ? parsedDate : null;
+        }
+
+        private void CheckEndDate(DateTime? dateFrom, DateTime? dateTo)
+        {
+            if ((dateTo <= dateFrom))
+            {
+                throw new ArgumentException(END_DATE_AFTER_START_DATE);
+            }
+
+            if ((dateTo > DateTime.UtcNow))
+            {
+                throw new ArgumentException(END_DATE_IS_IN_FUTURE);
+            }
         }
 
         private List<CoupleEmployeesViewModel> GetDaysWorkedTogether(List<Employee> employeesByProject, int projectId)
