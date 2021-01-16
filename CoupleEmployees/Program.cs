@@ -20,7 +20,11 @@ namespace CoupleEmployees
                       "yyyy-MM-dd", "yyyy-MM-d",
                       "yyyy-M-dd", "M-dd-yyyy",
                       "MM-d-yyyy", "M-d-yyyy",
-                      "MM-dd-yyyy", "dd-MM-yyyy"
+                      "MM-dd-yyyy", "dd-MM-yyyy",
+                      "dd-M-yyyy", "d-MM-yyyy",
+                      "d-M-yyyy", "dddd,dd-MMMM-yyyy",
+                      "yyyy MMMM", "yyyy-MMMM",
+                      "dddd,dd-MM-yyyy"
                     };
 
                     Console.WriteLine("Valid Date formats: ");

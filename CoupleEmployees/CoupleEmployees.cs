@@ -11,8 +11,7 @@ namespace CoupleEmployees
     public class CoupleEmployees
     {
         public async Task<List<CoupleEmployeesViewModel>> CalculateDaysWorkedTogether(string fileName, string dateFormat, List<string> allowedFormats)
-        {
-            //Тук съм прочел файла и го връщам целия като стринг
+        {            
             string inputData = await ReadDataFromFile(fileName);
 
             CheckDateFormat(dateFormat, allowedFormats);
@@ -22,7 +21,7 @@ namespace CoupleEmployees
             try
             {
                 finalists = (List<CoupleEmployeesViewModel>)
-                await this.GetTwoEmployeesWorkedTogether(inputData, dateFormat, fileName);
+                this.GetTwoEmployeesWorkedTogether(inputData, dateFormat, fileName);
             }
             catch (Exception ex)
             {
@@ -64,7 +63,7 @@ namespace CoupleEmployees
         }
 
 
-        public async Task<IEnumerable<CoupleEmployeesViewModel>>
+        public IEnumerable<CoupleEmployeesViewModel>
             GetTwoEmployeesWorkedTogether(string inputData, string dateFormat, string fileName)
         {
             var finalists = new List<CoupleEmployeesViewModel>();
