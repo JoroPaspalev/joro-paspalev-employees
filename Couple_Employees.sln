@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Couple_Employees", "Couple_
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Couple_Employees.Tests", "Couple_Employees.Tests\Couple_Employees.Tests.csproj", "{170FCFA7-58BD-4187-8664-6E256B389C56}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console_CoupleEmployees", "CoupleEmployees\Console_CoupleEmployees.csproj", "{70846DCE-9F00-49E5-8AA6-3A231D95773B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{170FCFA7-58BD-4187-8664-6E256B389C56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{170FCFA7-58BD-4187-8664-6E256B389C56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{170FCFA7-58BD-4187-8664-6E256B389C56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70846DCE-9F00-49E5-8AA6-3A231D95773B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70846DCE-9F00-49E5-8AA6-3A231D95773B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70846DCE-9F00-49E5-8AA6-3A231D95773B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70846DCE-9F00-49E5-8AA6-3A231D95773B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
