@@ -1,11 +1,11 @@
-﻿using Couple_Employees.Attributes.ModelValidationAttributes;
+﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
+using CoupleEmployees.Library.Attributes.ModelValidationAttributes;
 
-namespace Couple_Employees.ViewModels.Index
+namespace CoupleEmployees.Library.ViewModels.Index
 {
     public class ProblemViewModel
-    {       
+    {
         [IsEmptyFile]
         [Display(Name = "Attach text file")]
         public IFormFile TextFile { get; set; }

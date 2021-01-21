@@ -12,7 +12,7 @@ namespace CoupleEmployees
             {
                 try
                 {
-                    Console.Write("Please enter path to text file:");
+                    Console.Write("Please enter the path to text file:");
                     string fileName = Console.ReadLine();
 
                     var allowedFormats = new List<string>()
@@ -21,10 +21,16 @@ namespace CoupleEmployees
                       "yyyy-M-dd", "M-dd-yyyy",
                       "MM-d-yyyy", "M-d-yyyy",
                       "MM-dd-yyyy", "dd-MM-yyyy",
+                      "MMMM-dd-yyyy", "yyyy-dd-MM",
                       "dd-M-yyyy", "d-MM-yyyy",
                       "d-M-yyyy", "dddd,dd-MMMM-yyyy",
                       "yyyy MMMM", "yyyy-MMMM",
-                      "dddd,dd-MM-yyyy"
+                      "dddd,dd-MM-yyyy", "yyyy/MM/dd",
+                      "yyyy/dd/MM", "MM/dd/yyyy",
+                      "MMM/dd/yyyy", "MMMM/dd/yyyy",
+                      "yyyy.MM.dd", "yyyy.dd.MM",
+                      "MM.dd.yyyy","MMM.dd.yyyy",
+                      "MM.dd.yyyy", "MMMM.dd.yyyy"
                     };
 
                     Console.WriteLine("Valid Date formats: ");
@@ -34,10 +40,8 @@ namespace CoupleEmployees
 
                     var coupleEmployees = new CoupleEmployees();
 
-                    var finalists = await coupleEmployees
+                    await coupleEmployees
                         .CalculateDaysWorkedTogether(fileName, dateFormat, allowedFormats);
-
-                    coupleEmployees.PrintCoupleEmployees(finalists);
                 }
                 catch (Exception ex)
                 {

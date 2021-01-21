@@ -5,9 +5,11 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Couple_Employees", "Couple_Employees\Couple_Employees.csproj", "{E97BF638-7F22-4BBA-8A34-4BB6F452DAA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Couple_Employees.Tests", "Couple_Employees.Tests\Couple_Employees.Tests.csproj", "{170FCFA7-58BD-4187-8664-6E256B389C56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Couple_Employees.Tests", "Couple_Employees.Tests\Couple_Employees.Tests.csproj", "{170FCFA7-58BD-4187-8664-6E256B389C56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console_CoupleEmployees", "CoupleEmployees\Console_CoupleEmployees.csproj", "{70846DCE-9F00-49E5-8AA6-3A231D95773B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Console_CoupleEmployees", "CoupleEmployees\Console_CoupleEmployees.csproj", "{70846DCE-9F00-49E5-8AA6-3A231D95773B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoupleEmployees.Library", "CoupleEmployees.Library\CoupleEmployees.Library.csproj", "{EEF93CC1-C7F7-4EDC-95D6-75255336E310}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{70846DCE-9F00-49E5-8AA6-3A231D95773B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70846DCE-9F00-49E5-8AA6-3A231D95773B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70846DCE-9F00-49E5-8AA6-3A231D95773B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEF93CC1-C7F7-4EDC-95D6-75255336E310}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEF93CC1-C7F7-4EDC-95D6-75255336E310}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEF93CC1-C7F7-4EDC-95D6-75255336E310}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEF93CC1-C7F7-4EDC-95D6-75255336E310}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

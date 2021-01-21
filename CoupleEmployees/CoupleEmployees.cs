@@ -1,39 +1,120 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Globalization;
 using System.Threading.Tasks;
-using static CoupleEmployees.GlobalConstants;
+using System.Collections.Generic;
+using CoupleEmployees.Library.ViewModels.Employees;
+using static CoupleEmployees.Library.Common.GlobalConstants;
 
 namespace CoupleEmployees
 {
     public class CoupleEmployees
-    {
-        public async Task<List<CoupleEmployeesViewModel>> CalculateDaysWorkedTogether(string fileName, string dateFormat, List<string> allowedFormats)
-        {            
-            string inputData = await ReadDataFromFile(fileName);
+    {       
+        public async Task CalculateDaysWorkedTogether(
+            string fileName, string dateFormat, IEnumerable<string> allowedFormats)
+        {
+            var inputData = await ReadDataFromFile(fileName);
 
             CheckDateFormat(dateFormat, allowedFormats);
 
             var finalists = new List<CoupleEmployeesViewModel>();
+            var employees = new List<Employee>();
 
             try
             {
-                finalists = (List<CoupleEmployeesViewModel>)
-                this.GetTwoEmployeesWorkedTogether(inputData, dateFormat, fileName);
+                this.GetTwoEmployeesWorkedTogether(inputData, dateFormat, fileName, finalists, employees);
             }
             catch (Exception ex)
             {
                 throw new ArgumentException(ex.Message);
             }
 
-            return finalists
-                .OrderByDescending(x => x.WorkedDays)
-                .ToList();
+            var printModel = this.GiveMePrintModelByProjects(finalists);
+            this.PrintCoupleEmployees(printModel);
+
+            var printModelEmp = this.GiveMePrintModelOfEmployees(employees);
+            PrintCoupleEmployees(printModelEmp);
         }
 
-        public void CheckDateFormat(string dateFormat, List<string> allowedFormats)
+        public IEnumerable<PrintModel> GiveMePrintModelOfEmployees(IEnumerable<Employee> employees)
+        {
+            var printViewModel = employees
+               .Select(x => new PrintModel
+               {
+                   Column1Value = x.EmpId.ToString(),
+                   Column2Value = x.ProjectId.ToString(),
+                   Column3Value = x.DateFrom?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture),
+                   Column4Value = x.DateTo?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture),
+               })
+               .ToList();
+
+            return printViewModel;
+        }
+
+        public IEnumerable<PrintModel> GiveMePrintModelByProjects(List<CoupleEmployeesViewModel> finalists)
+        {
+            // Rearrange Ids of employees 143|218 is == 218|143
+            for (int i = 0; i < finalists.Count - 1; i++)
+            {
+                var ID1 = finalists[i].FirstEmployeeId;
+                var ID2 = finalists[i].SecondEmployeeId;
+
+                for (int p = i + 1; p < finalists.Count; p++)
+                {
+                    var nextID1 = finalists[p].FirstEmployeeId;
+                    var nextID2 = finalists[p].SecondEmployeeId;
+
+                    if (ID1 == nextID2 && ID2 == nextID1)
+                    {
+                        //Change their positions
+                        finalists[p].FirstEmployeeId = ID1;
+                        finalists[p].SecondEmployeeId = ID2;
+                    }
+                }
+            }
+
+            // Group by Id1 and Id2
+            var longestWorkByPairs = finalists
+                    .GroupBy(x => new { x.FirstEmployeeId, x.SecondEmployeeId })
+                    .ToList();
+
+            var coupleWithAllGroups = new List<CoupleEmployeesViewModel>();
+
+            foreach (var groupedElement in longestWorkByPairs)
+            {
+                var projectIds = groupedElement
+                    .Select(x => x.ProjectId)
+                    .ToList();
+
+                var WorkedDays = groupedElement
+                    .Sum(x => x.WorkedDays);
+
+                var coupleWithGroups = new CoupleEmployeesViewModel()
+                {
+                    FirstEmployeeId = groupedElement.Key.FirstEmployeeId,
+                    SecondEmployeeId = groupedElement.Key.SecondEmployeeId,
+                    ProjectId = string.Join(" ", projectIds),
+                    WorkedDays = WorkedDays,
+                };
+
+                coupleWithAllGroups.Add(coupleWithGroups);
+            }
+
+            var printModel = coupleWithAllGroups
+                .OrderByDescending(x => x.WorkedDays)
+                .Select(x => new PrintModel
+                {
+                    Column1Value = x.FirstEmployeeId.ToString(),
+                    Column2Value = x.SecondEmployeeId.ToString(),
+                    Column3Value = x.ProjectId.ToString(),
+                    Column4Value = x.WorkedDays.ToString(),
+                });
+
+            return printModel;
+        }
+
+        public void CheckDateFormat(string dateFormat, IEnumerable<string> allowedFormats)
         {
             if (!allowedFormats.Contains(dateFormat))
             {
@@ -53,34 +134,26 @@ namespace CoupleEmployees
                     inputData = await sr.ReadToEndAsync();
                 }
             }
-            catch (IOException e)
+            catch (IOException ex)
             {
                 Console.WriteLine("The file could not be read:");
-                Console.WriteLine(e.Message);
+                Console.WriteLine(ex.Message);
             }
 
             return inputData;
         }
 
-
-        public IEnumerable<CoupleEmployeesViewModel>
-            GetTwoEmployeesWorkedTogether(string inputData, string dateFormat, string fileName)
+        public void GetTwoEmployeesWorkedTogether(string inputData, string dateFormat, string fileName, ICollection<CoupleEmployeesViewModel> finalists, ICollection<Employee> employees)
         {
-            var finalists = new List<CoupleEmployeesViewModel>();
-
             CheckInputFileExtension(fileName);
 
-            var splittedData = SplitInputData(inputData);
+            var splittedData = SplitInputData(inputData);           
 
-            List<Employee> employees;
+            ICollection<int> projectIds;
 
-            HashSet<int> projectIds;
-
-            ParseAndCreateListWithEmployees(splittedData, out employees, out projectIds, dateFormat);
+            ParseAndCreateListWithEmployees(splittedData, employees, out projectIds, dateFormat);
 
             GetEmployeesWithCalculatedDays(finalists, employees, projectIds);
-
-            return finalists;
         }
 
         public void CheckInputFileExtension(string fileName)
@@ -91,7 +164,7 @@ namespace CoupleEmployees
             }
         }
 
-        public List<string> SplitInputData(string inputData)
+        public IEnumerable<string> SplitInputData(string inputData)
         {
             return inputData
                 .Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
@@ -99,14 +172,14 @@ namespace CoupleEmployees
         }
 
         public void ParseAndCreateListWithEmployees(
-            List<string> splittedData, out List<Employee> employees, out HashSet<int> projectIds, string dateFormat)
-        {
-            employees = new List<Employee>();
+            IEnumerable<string> splittedData, ICollection<Employee> employees,
+                  out ICollection<int> projectIds, string dateFormat)
+        {            
             projectIds = new HashSet<int>();
 
             foreach (var row in splittedData)
             {
-                List<string> currEmployee = row
+                var currEmployee = row
                     .Split(", ", StringSplitOptions.RemoveEmptyEntries)
                     .ToList();
 
@@ -153,15 +226,14 @@ namespace CoupleEmployees
             }
         }
 
-        public DateTime? ParseDate(string date, string allowedFormats)
+        public DateTime? ParseDate(string date, string dateFormat)
         {
-            //string[] allowedFormats = { "yyyy-MM-dd", "MM-dd-yyyy", "dd-MM-yyyy", "M-dd-yyyy", "MM-d-yyyy", "M-d-yyyy", "yyyy-MM-d", "yyyy-M-dd" };
-
             DateTime parsedDate;
 
-            bool isParsedDate = DateTime.TryParseExact(date, allowedFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedDate);
+            bool isParsedDate = DateTime.TryParseExact(date, dateFormat, CultureInfo.InvariantCulture,
+                DateTimeStyles.None, out parsedDate);
 
-            if (isParsedDate == true)
+            if (isParsedDate)
             {
                 return parsedDate;
             }
@@ -184,7 +256,7 @@ namespace CoupleEmployees
             }
         }
 
-        public void GetEmployeesWithCalculatedDays(List<CoupleEmployeesViewModel> finalists, List<Employee> employees, HashSet<int> projectIds)
+        public void GetEmployeesWithCalculatedDays(ICollection<CoupleEmployeesViewModel> finalists, IEnumerable<Employee> employees, ICollection<int> projectIds)
         {
             // Loop through Hashset and take currProjectId
             foreach (var projectId in projectIds)
@@ -199,25 +271,27 @@ namespace CoupleEmployees
                 }
 
                 // Filter Employees by Project (In Group by project)
-                List<Employee> employeesByProject = employees
+                var employeesByProject = employees
                      .Where(x => x.ProjectId == projectId)
                      .ToList();
 
                 //Give me list with all couples of employees with days worked together by same project
                 var employeesWithCalculatedDays = this.GetDaysWorkedTogether(employeesByProject, projectId);
 
-                CoupleEmployeesViewModel currFinalist = employeesWithCalculatedDays
-                    .OrderByDescending(x => x.WorkedDays)
-                    .Take(1)
-                    .First();
-
-                if (currFinalist.WorkedDays < 1)
+                foreach (var couple in employeesWithCalculatedDays)
                 {
-                    continue;
-                }
+                    if (couple.WorkedDays < 1)
+                    {
+                        continue;
+                    }
 
-                finalists.Add(currFinalist);
+                    finalists.Add(couple);
+                }
             }
+
+            finalists = finalists
+                .OrderByDescending(x => x.WorkedDays)
+                .ToList();
         }
 
         private List<CoupleEmployeesViewModel> GetDaysWorkedTogether(List<Employee> employeesByProject, int projectId)
@@ -258,27 +332,13 @@ namespace CoupleEmployees
                     {
                         daysWorkedTogether = (nextEmpl.DateTo - currEmpl.DateFrom).Value.TotalDays;
                     }
-                    else if ((nextEmpl.DateFrom > currEmpl.DateFrom &&
-                              nextEmpl.DateFrom > currEmpl.DateTo) &&
-                             (nextEmpl.DateTo > currEmpl.DateFrom &&
-                              nextEmpl.DateTo > currEmpl.DateTo))
-                    {
-                        daysWorkedTogether = 0;
-                    }
-                    else if ((currEmpl.DateFrom > nextEmpl.DateFrom &&
-                              currEmpl.DateFrom > nextEmpl.DateTo) &&
-                             (currEmpl.DateTo > nextEmpl.DateFrom &&
-                              currEmpl.DateTo > nextEmpl.DateTo))
-                    {
-                        daysWorkedTogether = 0;
-                    }
-
+                   
                     var employeeWithCalculatedDays = new CoupleEmployeesViewModel
                     {
                         FirstEmployeeId = currEmpl.EmpId,
                         SecondEmployeeId = nextEmpl.EmpId,
-                        ProjectId = projectId,
-                        WorkedDays = (int)daysWorkedTogether
+                        ProjectId = projectId.ToString(),
+                        WorkedDays = (int)daysWorkedTogether,
                     };
 
                     employeesWithCalculatedDays.Add(employeeWithCalculatedDays);
@@ -288,28 +348,47 @@ namespace CoupleEmployees
             return employeesWithCalculatedDays;
         }
 
-        public void PrintCoupleEmployees(List<CoupleEmployeesViewModel> finalists)
+        public void PrintCoupleEmployees(IEnumerable<PrintModel> finalists)
         {
-            var label = new string[] { "Employee ID #1", "Employee ID #2", "Project ID", "Days worked" };
+            var labelWithProjects = new string[] { "  Employee ID #1  ", "  Employee ID #2  ", "   Project/s ID   ", "  Days worked  " };
 
-            Console.WriteLine(new string('=', 60));
-            Console.Write(string.Join(" | ", label));
+            var labelWithDates = new string[] { "   Employee ID    ", "    Project ID    ", "     DateFrom     ", "    DateTo     " };
+
+            var lengthOfLine = labelWithProjects.Sum(x => x.Length) + 11;
+
+            int value;
+
+            if (int.TryParse(finalists.First().Column4Value, out value))
+            {
+                Console.WriteLine(Environment.NewLine);
+                Console.WriteLine("Employees worked the longest on common projects");
+                PrintDoubleLine(lengthOfLine);
+                Console.Write(string.Join(" | ", labelWithProjects));
+            }
+            else
+            {
+                Console.WriteLine(Environment.NewLine);
+                Console.WriteLine("All employees worked by projects");
+                PrintDoubleLine(lengthOfLine);
+                Console.Write(string.Join(" | ", labelWithDates));
+            }
+
             Console.WriteLine(" |");
-            Console.WriteLine(new string('=', 60));
+            PrintDoubleLine(lengthOfLine);
 
-            var firstElementLength = label[0].Length;//14
-            var secondElementLength = label[1].Length;
-            var thirdElementLength = label[2].Length;
-            var forthElementLength = label[3].Length;
+            var firstElementLength = labelWithProjects[0].Length;
+            var secondElementLength = labelWithProjects[1].Length;
+            var thirdElementLength = labelWithProjects[2].Length;
+            var forthElementLength = labelWithProjects[3].Length;
 
             foreach (var currCouple in finalists)
             {
-                var firstEmpLength = currCouple.FirstEmployeeId.ToString().Length;//1
-                var secondEmpLength = currCouple.SecondEmployeeId.ToString().Length;
-                var projectLength = currCouple.ProjectId.ToString().Length;
-                var daysLength = currCouple.WorkedDays.ToString().Length;
+                var firstEmpLength = currCouple.Column1Value.Length;
+                var secondEmpLength = currCouple.Column2Value.Length;
+                var projectLength = currCouple.Column3Value.Length;
+                var daysLength = currCouple.Column4Value.Length;
 
-                var firstOffset = (firstElementLength - firstEmpLength) / 2;//(14-3)2=5
+                var firstOffset = (firstElementLength - firstEmpLength) / 2;
                 var secondOffset = (secondElementLength - secondEmpLength) / 2;
                 var thirdOffset = (thirdElementLength - projectLength) / 2;
                 var forthOffset = (forthElementLength - daysLength) / 2;
@@ -319,7 +398,7 @@ namespace CoupleEmployees
                 var thirdOffsetAfter = thirdOffset;
                 var forthOffsetAfter = forthOffset;
 
-                if ((firstElementLength - firstEmpLength) % 2 != 0)//14%3 Yes
+                if ((firstElementLength - firstEmpLength) % 2 != 0)
                 {
                     firstOffsetAfter++;
                 }
@@ -350,16 +429,21 @@ namespace CoupleEmployees
                 var forthOffsetAfterStr = new string(' ', forthOffsetAfter);
 
 
-                var result = $"{firstOffStr}{currCouple.FirstEmployeeId}{firstOffsetAfterStr} | " +
-                    $"{secondOffStr}{currCouple.SecondEmployeeId}{secondOffsetAfterStr} | " +
-                    $"{thirdOffStr}{currCouple.ProjectId}{thirdOffsetAfterStr} | " +
-                    $"{fourthOffStr}{currCouple.WorkedDays}{forthOffsetAfterStr} |";
+                var result = $"{firstOffStr}{currCouple.Column1Value}{firstOffsetAfterStr} | " +
+                    $"{secondOffStr}{currCouple.Column2Value}{secondOffsetAfterStr} | " +
+                    $"{thirdOffStr}{currCouple.Column3Value}{thirdOffsetAfterStr} | " +
+                    $"{fourthOffStr}{currCouple.Column4Value}{forthOffsetAfterStr} |";
 
                 Console.WriteLine(result);
-                Console.WriteLine(new string('-', 60));
+                Console.WriteLine(new string('-', lengthOfLine));
             }
 
-            Console.WriteLine(new string('=', 60));
+            PrintDoubleLine(lengthOfLine);
+        }
+
+        private static void PrintDoubleLine(int length)
+        {
+            Console.WriteLine(new string('=', length));
         }
     }
 }

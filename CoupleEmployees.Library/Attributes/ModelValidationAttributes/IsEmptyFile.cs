@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Couple_Employees.Attributes.ModelValidationAttributes
+namespace CoupleEmployees.Library.Attributes.ModelValidationAttributes
 {
     public class IsEmptyFile : ValidationAttribute
     {

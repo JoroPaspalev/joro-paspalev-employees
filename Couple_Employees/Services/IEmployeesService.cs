@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Collections.Generic;
-using Couple_Employees.ViewModels.Index;
-using Couple_Employees.ViewModels.Employees;
+using CoupleEmployees.Library.ViewModels.Index;
+using CoupleEmployees.Library.ViewModels.Employees;
 
 namespace Couple_Employees.Services
 {

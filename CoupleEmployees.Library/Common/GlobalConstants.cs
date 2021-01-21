@@ -1,4 +1,4 @@
-﻿namespace CoupleEmployees
+﻿namespace CoupleEmployees.Library.Common
 {
     public static class GlobalConstants
     {
@@ -6,11 +6,11 @@
 
         public const string INVALID_DATA = "Input data is invalid!";
 
+        public const string INVALID_DATE_FORMAT = "Invalid Date format!";
+
         public const string INVALID_END_DATE = "Input data contains row with invalid End Date!";
 
         public const string INVALID_START_DATE = "Input data contains row with invalid Start Date!";
-
-        public const string INVALID_DATE_FORMAT = "Invalid Date format!";
 
         public const string EMPTY_FILE = "Please select a file!";
 

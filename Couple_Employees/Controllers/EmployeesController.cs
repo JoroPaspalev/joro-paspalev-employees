@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Couple_Employees.Services;
-using Couple_Employees.ViewModels.Employees;
-using Couple_Employees.ViewModels.Index;
-using Couple_Employees.ViewModels.Error;
-using static Couple_Employees.Common.GlobalConstants;
+using CoupleEmployees.Library.ViewModels.Employees;
+using CoupleEmployees.Library.ViewModels.Index;
+using CoupleEmployees.Library.ViewModels.Error;
+using static CoupleEmployees.Library.Common.GlobalConstants;
 
 namespace Couple_Employees.Controllers
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Xunit;
 using Couple_Employees.Services;
-using Couple_Employees.ViewModels.Employees;
+using CoupleEmployees.Library.ViewModels.Employees;
 
 namespace Couple_Employees.Tests.Services
 {
@@ -116,7 +116,7 @@ namespace Couple_Employees.Tests.Services
                 {
                     FirstEmployeeId = 143,
                     SecondEmployeeId = 218,
-                    ProjectId = 1,
+                    ProjectId = 1.ToString(),
                     WorkedDays = 446
                 }
             };

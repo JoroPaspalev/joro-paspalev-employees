@@ -40,3 +40,7 @@ C:\Users\JP PC\source\repos\Couple_Employees\Couple_Employees\obj\Debug\net5.0\C
 C:\Users\JP PC\source\repos\Couple_Employees\Couple_Employees\obj\Debug\net5.0\Razor\Views\Employees\CoupleEmployees.cshtml.g.cs
 C:\Users\JP PC\source\repos\Couple_Employees\Couple_Employees\obj\Debug\net5.0\Razor\Views\Errors\InvalidData.cshtml.g.cs
 C:\Users\JP PC\source\repos\Couple_Employees\Couple_Employees\obj\Debug\net5.0\Couple_Employees.csprojAssemblyReference.cache
+C:\Users\JP PC\source\repos\Couple_Employees\Couple_Employees\bin\Debug\net5.0\CoupleEmployees.Library.dll
+C:\Users\JP PC\source\repos\Couple_Employees\Couple_Employees\bin\Debug\net5.0\CoupleEmployees.Library.pdb
+C:\Users\JP PC\source\repos\Couple_Employees\Couple_Employees\bin\Debug\net5.0\Microsoft.AspNetCore.Http.Features.dll
+C:\Users\JP PC\source\repos\Couple_Employees\Couple_Employees\bin\Debug\net5.0\System.IO.Pipelines.dll
