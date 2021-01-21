@@ -1,14 +1,9 @@
-using Couple_Employees.Services;
+using CoupleEmployees.Library.Servives;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Couple_Employees
 {
@@ -25,7 +20,7 @@ namespace Couple_Employees
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddTransient<IEmployeesService, EmployeesService>();
+            services.AddTransient<ICouplesEmployees, CouplesEmployees>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

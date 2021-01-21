@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using CoupleEmployees.Library.ViewModels.Employees;
 using static CoupleEmployees.Library.Common.GlobalConstants;
+using System.Text;
+using Microsoft.AspNetCore.Http;
 
-namespace CoupleEmployees
+namespace CoupleEmployees.Library.Servives
 {
-    public class CoupleEmployees
-    {       
+    public class CouplesEmployees : ICouplesEmployees
+    {
         public async Task CalculateDaysWorkedTogether(
             string fileName, string dateFormat, IEnumerable<string> allowedFormats)
         {
@@ -143,13 +145,13 @@ namespace CoupleEmployees
             return inputData;
         }
 
-        public void GetTwoEmployeesWorkedTogether(string inputData, string dateFormat, string fileName, ICollection<CoupleEmployeesViewModel> finalists, ICollection<Employee> employees)
+        public void GetTwoEmployeesWorkedTogether(string inputData, string dateFormat, string fileName, ICollection<CoupleEmployeesViewModel> finalists, List<Employee> employees)
         {
             CheckInputFileExtension(fileName);
 
-            var splittedData = SplitInputData(inputData);           
+            var splittedData = SplitInputData(inputData);
 
-            ICollection<int> projectIds;
+            HashSet<int> projectIds;
 
             ParseAndCreateListWithEmployees(splittedData, employees, out projectIds, dateFormat);
 
@@ -172,9 +174,9 @@ namespace CoupleEmployees
         }
 
         public void ParseAndCreateListWithEmployees(
-            IEnumerable<string> splittedData, ICollection<Employee> employees,
-                  out ICollection<int> projectIds, string dateFormat)
-        {            
+            IEnumerable<string> splittedData, List<Employee> employees,
+                  out HashSet<int> projectIds, string dateFormat)
+        {
             projectIds = new HashSet<int>();
 
             foreach (var row in splittedData)
@@ -243,7 +245,7 @@ namespace CoupleEmployees
             }
         }
 
-        private void CheckEndDate(DateTime? dateFrom, DateTime? dateTo)
+        public void CheckEndDate(DateTime? dateFrom, DateTime? dateTo)
         {
             if ((dateTo <= dateFrom))
             {
@@ -294,7 +296,7 @@ namespace CoupleEmployees
                 .ToList();
         }
 
-        private List<CoupleEmployeesViewModel> GetDaysWorkedTogether(List<Employee> employeesByProject, int projectId)
+        public List<CoupleEmployeesViewModel> GetDaysWorkedTogether(List<Employee> employeesByProject, int projectId)
         {
             var employeesWithCalculatedDays = new List<CoupleEmployeesViewModel>();
 
@@ -332,7 +334,7 @@ namespace CoupleEmployees
                     {
                         daysWorkedTogether = (nextEmpl.DateTo - currEmpl.DateFrom).Value.TotalDays;
                     }
-                   
+
                     var employeeWithCalculatedDays = new CoupleEmployeesViewModel
                     {
                         FirstEmployeeId = currEmpl.EmpId,
@@ -441,9 +443,20 @@ namespace CoupleEmployees
             PrintDoubleLine(lengthOfLine);
         }
 
-        private static void PrintDoubleLine(int length)
+        public async Task<string> ReadAsStringAsync(IFormFile file)
+        {
+            var result = new StringBuilder();
+            using (var reader = new StreamReader(file.OpenReadStream()))
+            {
+                while (reader.Peek() >= 0)
+                    result.AppendLine(await reader.ReadLineAsync());
+            }
+            return result.ToString();
+        }
+
+        public void PrintDoubleLine(int length)
         {
             Console.WriteLine(new string('=', length));
-        }
+        }       
     }
 }

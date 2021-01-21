@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using CoupleEmployees.Library.Servives;
 
 namespace CoupleEmployees
 {
@@ -38,7 +39,7 @@ namespace CoupleEmployees
                     Console.Write("Please select Date format:");
                     string dateFormat = Console.ReadLine();
 
-                    var coupleEmployees = new CoupleEmployees();
+                    var coupleEmployees = new CouplesEmployees();
 
                     await coupleEmployees
                         .CalculateDaysWorkedTogether(fileName, dateFormat, allowedFormats);

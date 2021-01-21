@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Xunit;
-using Couple_Employees.Services;
 using CoupleEmployees.Library.ViewModels.Employees;
+using CoupleEmployees.Library.Servives;
 
 namespace Couple_Employees.Tests.Services
 {
@@ -13,7 +13,7 @@ namespace Couple_Employees.Tests.Services
         {
             string inputData = "143, 1, 31-12-2013, 02-04-2018\r\n218, 1, 11-12-2011, 22-03-2015\r\n144, 1, 14-04-2001, 19-07-2003\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n";
 
-            var employeesService = new EmployeesService();
+            var employeesService = new CouplesEmployees();
 
             var splittedData = employeesService.SplitInputData(inputData);
 
@@ -34,16 +34,16 @@ namespace Couple_Employees.Tests.Services
 
             string dateFormat = "dd-MM-yyyy";
 
-            var employeesService = new EmployeesService();
+            var employeesService = new CouplesEmployees();
 
             var splittedData = employeesService.SplitInputData(inputData);
 
-            List<Employee> employees;
+            List<Employee> employees = new List<Employee>();
 
             HashSet<int> projectIds;
 
             employeesService.ParseAndCreateListWithEmployees
-                (splittedData, out employees, out projectIds, dateFormat);
+                (splittedData, employees, out projectIds, dateFormat);
 
             List<Employee> employeesResult = new List<Employee>()
             {
@@ -70,7 +70,7 @@ namespace Couple_Employees.Tests.Services
                 }
             };
 
-            HashSet<int> projectIdsResult = new HashSet<int>() { 1 };
+            var projectIdsResult = new HashSet<int>() { 1 };
 
             Assert.Equal<int>(projectIdsResult, projectIds);
             Assert.Equal(employeesResult[0].EmpId, employees[0].EmpId);
@@ -96,16 +96,16 @@ namespace Couple_Employees.Tests.Services
 
             string dateFormat = "dd-MM-yyyy";
 
-            var employeesService = new EmployeesService();
+            var employeesService = new CouplesEmployees();
 
             var splittedData = employeesService.SplitInputData(inputData);
 
-            List<Employee> employees;
+            List<Employee> employees = new List<Employee>();
 
             HashSet<int> projectIds;
 
             employeesService.ParseAndCreateListWithEmployees
-                (splittedData, out employees, out projectIds, dateFormat);
+                (splittedData, employees, out projectIds, dateFormat);
 
             var finalists = new List<CoupleEmployeesViewModel>();
             employeesService.GetEmployeesWithCalculatedDays(finalists, employees, projectIds);
@@ -130,7 +130,7 @@ namespace Couple_Employees.Tests.Services
         [Fact]
         public void ParseDateShouldReturnDateTimeWhenIsCorrectData()
         {
-            var employeesService = new EmployeesService();
+            var employeesService = new CouplesEmployees();
 
             string dateAsString = "2013-11-01";
 
@@ -140,13 +140,13 @@ namespace Couple_Employees.Tests.Services
 
             DateTime? result = new DateTime(2013, 11, 1);
 
-            Assert.Equal(result, parsedDate);           
+            Assert.Equal(result, parsedDate);
         }
 
         [Fact]
         public void ParseDateShouldReturnNullWhenInputIsIncorrect()
         {
-            var employeesService = new EmployeesService();
+            var employeesService = new CouplesEmployees();
 
             string dateAsString = "text";
 
