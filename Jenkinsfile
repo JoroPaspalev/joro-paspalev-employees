@@ -17,7 +17,7 @@ pipeline{
     
     stage('Restore packages') {
       steps {
-        bat "dotnet restore ${workspace}\\https://github.com/JoroPaspalev/joro-paspalev-employees\\Couple_Employees.sln"
+        bat "dotnet restore ${workspace}\\Couple_Employees.sln"
       }
     }
   
