@@ -15,9 +15,6 @@ pipeline{
       }
     }
   
-    stage('Compiling the code here'){
-      
-      steps 
-    }
+    
   }
 }
