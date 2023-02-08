@@ -9,6 +9,12 @@ pipeline{
       }
     }
     
+    stage ('Git Checkout') {
+      steps {
+         git branch: 'master', url: 'https://github.com/JoroPaspalev/joro-paspalev-employees.git'
+      }
+    }
+    
     stage('Restore packages') {
       steps {
         bat "dotnet restore ${workspace}\\https://github.com/JoroPaspalev/joro-paspalev-employees\\Couple_Employees.sln"
