@@ -23,7 +23,7 @@ pipeline{
     
     stage('Build') {
        steps {
-        bat "dotnet build ${workspace}\\Couple_Employees.sln /nologo /nr:false  /p:platform=\"x64\" /p:configuration=\"release\" /t:clean;restore;rebuild"
+        bat "dotnet build ${workspace}\\Couple_Employees.sln"
        }
     }
   
