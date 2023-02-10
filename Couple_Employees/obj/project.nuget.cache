@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "+T/fcQdXr7aLnFKGxhc7NVGdMALHSOJ5FDdOpbws9BZPg30EmLsvYE2YLyJu5Sg+Gh7b3xhHxqIQ6CyTiNxxvg==",
+  "dgSpecHash": "9v74KPmU0dlKkeq2yInB4b4jb+IgiOdCbYBQ6V+WepPYBdY3XjbkTYQvPFZJjJJ4SfZKjIghXqiGV/w9DedsLA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\JP PC\\source\\repos\\Couple_Employees\\Couple_Employees\\Couple_Employees.csproj",
+  "projectFilePath": "D:\\Projects\\joro-paspalev-employees\\Couple_Employees\\Couple_Employees.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\JP PC\\.nuget\\packages\\microsoft.aspnetcore.http.features\\5.0.2\\microsoft.aspnetcore.http.features.5.0.2.nupkg.sha512",
-    "C:\\Users\\JP PC\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512",
-    "C:\\Users\\JP PC\\.nuget\\packages\\system.io.pipelines\\5.0.1\\system.io.pipelines.5.0.1.nupkg.sha512"
+    "C:\\Users\\mariy\\.nuget\\packages\\microsoft.aspnetcore.http.features\\5.0.2\\microsoft.aspnetcore.http.features.5.0.2.nupkg.sha512",
+    "C:\\Users\\mariy\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512",
+    "C:\\Users\\mariy\\.nuget\\packages\\system.io.pipelines\\5.0.1\\system.io.pipelines.5.0.1.nupkg.sha512"
   ],
   "logs": []
 }

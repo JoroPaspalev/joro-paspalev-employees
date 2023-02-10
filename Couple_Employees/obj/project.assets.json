@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "net5.0": {
+    "net7.0": {
       "Microsoft.AspNetCore.Http.Features/5.0.2": {
         "type": "package",
         "dependencies": {
@@ -9,28 +9,40 @@
           "System.IO.Pipelines": "5.0.1"
         },
         "compile": {
-          "lib/net5.0/Microsoft.AspNetCore.Http.Features.dll": {}
+          "lib/net5.0/Microsoft.AspNetCore.Http.Features.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/net5.0/Microsoft.AspNetCore.Http.Features.dll": {}
+          "lib/net5.0/Microsoft.AspNetCore.Http.Features.dll": {
+            "related": ".xml"
+          }
         }
       },
       "Microsoft.Extensions.Primitives/5.0.0": {
         "type": "package",
         "compile": {
-          "lib/netcoreapp3.0/Microsoft.Extensions.Primitives.dll": {}
+          "lib/netcoreapp3.0/Microsoft.Extensions.Primitives.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/netcoreapp3.0/Microsoft.Extensions.Primitives.dll": {}
+          "lib/netcoreapp3.0/Microsoft.Extensions.Primitives.dll": {
+            "related": ".xml"
+          }
         }
       },
       "System.IO.Pipelines/5.0.1": {
         "type": "package",
         "compile": {
-          "ref/netcoreapp2.0/System.IO.Pipelines.dll": {}
+          "ref/netcoreapp2.0/System.IO.Pipelines.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/netcoreapp3.0/System.IO.Pipelines.dll": {}
+          "lib/netcoreapp3.0/System.IO.Pipelines.dll": {
+            "related": ".xml"
+          }
         }
       },
       "CoupleEmployees.Library/1.0.0": {
@@ -123,43 +135,44 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net5.0": [
+    "net7.0": [
       "CoupleEmployees.Library >= 1.0.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\JP PC\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\mariy\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\JP PC\\source\\repos\\Couple_Employees\\Couple_Employees\\Couple_Employees.csproj",
+      "projectUniqueName": "D:\\Projects\\joro-paspalev-employees\\Couple_Employees\\Couple_Employees.csproj",
       "projectName": "Couple_Employees",
-      "projectPath": "C:\\Users\\JP PC\\source\\repos\\Couple_Employees\\Couple_Employees\\Couple_Employees.csproj",
-      "packagesPath": "C:\\Users\\JP PC\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\JP PC\\source\\repos\\Couple_Employees\\Couple_Employees\\obj\\",
+      "projectPath": "D:\\Projects\\joro-paspalev-employees\\Couple_Employees\\Couple_Employees.csproj",
+      "packagesPath": "C:\\Users\\mariy\\.nuget\\packages\\",
+      "outputPath": "D:\\Projects\\joro-paspalev-employees\\Couple_Employees\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\JP PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\mariy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net5.0"
+        "net7.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net5.0": {
-          "targetAlias": "net5.0",
+        "net7.0": {
+          "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Users\\JP PC\\source\\repos\\Couple_Employees\\CoupleEmployees.Library\\CoupleEmployees.Library.csproj": {
-              "projectPath": "C:\\Users\\JP PC\\source\\repos\\Couple_Employees\\CoupleEmployees.Library\\CoupleEmployees.Library.csproj"
+            "D:\\Projects\\joro-paspalev-employees\\CoupleEmployees.Library\\CoupleEmployees.Library.csproj": {
+              "projectPath": "D:\\Projects\\joro-paspalev-employees\\CoupleEmployees.Library\\CoupleEmployees.Library.csproj"
             }
           }
         }
@@ -171,15 +184,16 @@
       }
     },
     "frameworks": {
-      "net5.0": {
-        "targetAlias": "net5.0",
+      "net7.0": {
+        "targetAlias": "net7.0",
         "imports": [
           "net461",
           "net462",
           "net47",
           "net471",
           "net472",
-          "net48"
+          "net48",
+          "net481"
         ],
         "assetTargetFallback": true,
         "warn": true,
@@ -191,7 +205,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }
