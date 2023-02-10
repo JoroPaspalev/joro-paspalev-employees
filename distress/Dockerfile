@@ -7,21 +7,19 @@ EXPOSE 5000
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 ARG appVersion
 WORKDIR /src
-COPY Distress.Service/Distress.Service.csproj Distress.Service/
-RUN dotnet restore Distress.Service/Distress.Service.csproj
-COPY Retry/Retry.csproj Retry/
-RUN dotnet restore Retry/Retry.csproj
-COPY Common/CommonProperties/CommonProperties.csproj CommonProperties/
-RUN dotnet restore CommonProperties/CommonProperties.csproj
+
+COPY joro-paspalev-employees/Couple_Employees.sln joro-paspalev-employees/
+RUN dotnet restore Distress.Service/Couple_Employees.sln
+
 COPY . .
-WORKDIR /src/Distress.Service
-RUN dotnet build Distress.Service.csproj /p:Version=$appVersion -c Release -o /app
+WORKDIR /src/joro-paspalev-employees
+RUN dotnet build joro-paspalev-employees/Couple_Employees/Couple_Employees.csproj /p:Version=$appVersion -c Release -o /app
 
 FROM build AS publish
 ARG appVersion
-RUN dotnet publish Distress.Service.csproj /p:Version=$appVersion -c Release -o /app
+RUN dotnet publish Couple_Employees.csproj /p:Version=$appVersion -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "Distress.Service.dll"]
+ENTRYPOINT ["dotnet", "Couple_Employees.dll"]
