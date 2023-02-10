@@ -8,7 +8,7 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 ARG appVersion
 WORKDIR /src
 
-COPY ../Couple_Employees.sln .
+COPY ./Couple_Employees.sln .
 RUN dotnet restore Couple_Employees.sln
 
 COPY . .
