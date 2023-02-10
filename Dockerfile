@@ -21,4 +21,4 @@ RUN dotnet publish Couple_Employees.csproj /p:Version=$appVersion -c Release -o 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "Couple_Employees.dll"]
+ENTRYPOINT ["dotnet", "Couple_Employees.dll", "--urls", "http://0.0.0.0:5599"]
