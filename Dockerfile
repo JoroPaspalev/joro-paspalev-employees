@@ -1,6 +1,6 @@
 ARG appVersion="1.0.1-beta"
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS base
+FROM mcr.microsoft.com/dotnet/sdk AS base
 WORKDIR /app
 EXPOSE 5000
 
