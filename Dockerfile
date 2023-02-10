@@ -2,7 +2,7 @@ ARG appVersion="1.0.1-beta"
 
 FROM mcr.microsoft.com/dotnet/sdk AS base
 WORKDIR /app
-EXPOSE 5000
+EXPOSE 5599
 
 FROM mcr.microsoft.com/dotnet/sdk AS build
 ARG appVersion
