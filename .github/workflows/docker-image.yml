@@ -15,5 +15,5 @@ jobs:
     - name: Build the Docker image
       run: |
         docker login -u 8301125369 -p @Viki8301@
-        docker build . --file Dockerfile --tag my-image-name:$(date)
-        docker push my-image-name:$(date)
+        docker build . --file Dockerfile --tag Name_of_the_Image_Here
+        docker push Name_of_the_Image_Here
