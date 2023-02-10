@@ -5,6 +5,10 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+    
+defaults:
+   run:
+      working-directory: ./distress
 
 jobs:
   build:
@@ -16,5 +20,5 @@ jobs:
       run: |
         docker login -u 8301125369 -p @Viki8301@
         working-directory: ./distress
-        docker build ./distress --file Dockerfile --tag my-image-name:$(date +%s)
+        docker build . --file Dockerfile --tag my-image-name:$(date +%s)
         docker push 8301125369/employees:v1.0
