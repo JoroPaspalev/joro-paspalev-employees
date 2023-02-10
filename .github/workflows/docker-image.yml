@@ -15,5 +15,6 @@ jobs:
     - name: Build the Docker image
       run: |
         docker login -u 8301125369 -p @Viki8301@
+        working-directory: ./distress
         docker build ./distress --file Dockerfile --tag my-image-name:$(date +%s)
         docker push 8301125369/employees:v1.0
