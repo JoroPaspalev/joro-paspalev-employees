@@ -4,11 +4,7 @@ on:
   push:
     branches: [ "master" ]
   pull_request:
-    branches: [ "master" ]
-    
-defaults:
-   run:
-      working-directory: ./distress
+    branches: [ "master" ] 
 
 jobs:
   build:
