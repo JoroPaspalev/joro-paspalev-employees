@@ -4,7 +4,6 @@ FROM mcr.microsoft.com/dotnet/sdk AS base
 WORKDIR /app
 EXPOSE 5599
 
-FROM mcr.microsoft.com/dotnet/sdk AS build
 ARG appVersion
 WORKDIR /src
 
@@ -14,7 +13,7 @@ RUN dotnet restore Couple_Employees.sln
 WORKDIR /src/Couple_Employees
 RUN dotnet build Couple_Employees.csproj /p:Version=$appVersion -c Release -o /app
 
-FROM build AS publish
+FROM base AS publish
 ARG appVersion
 RUN dotnet publish Couple_Employees.csproj /p:Version=$appVersion -c Release -o /app
 
