@@ -16,4 +16,4 @@ jobs:
       run: |
         docker login -u 8301125369 -p @Viki8301@
         docker build . --file Dockerfile --tag image_name:v1.0
-        docker push image_name:v1.0
+        docker push 8301125369/image_name:v1.0
