@@ -4,6 +4,7 @@ FROM mcr.microsoft.com/dotnet/sdk AS base
 WORKDIR /app
 EXPOSE 5599
 
+ARG appVersion
 WORKDIR /src
 
 COPY . .
