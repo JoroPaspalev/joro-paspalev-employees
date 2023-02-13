@@ -15,5 +15,5 @@ jobs:
     - name: Build the Docker image
       run: |
         docker login -u 8301125369 -p @Viki8301@
-        docker build . --file Dockerfile --tag 8301125369/image_name:v3.0
-        docker push 8301125369/image_name:v3.0
+        docker build . --file Dockerfile --tag 8301125369/image_name:v4.0
+        docker push 8301125369/image_name:v4.0
